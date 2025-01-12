@@ -44,7 +44,7 @@ async function validateId(id: string) {
 }
 
 // Metadata generator (opsional)
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: any) {
     const id = (await params).id;
 
     // Fetch data
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 // Main component
-export default async function DetailPage({ params }: Props) {
+export default async function DetailPage({ params }: any) {
     const id = (await params).id;
 
     // Validasi domain

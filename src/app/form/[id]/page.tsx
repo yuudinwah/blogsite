@@ -4,7 +4,7 @@ import Editor from '@/components/wysiwyg';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function EditPage({ params }: { params: { id: string } }) {
+export default function EditPage({ params }: any ) {
     const [content, setContent] = useState<string>('');
     const [initialContent, setInitialContent] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);

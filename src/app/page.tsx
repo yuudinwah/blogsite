@@ -81,15 +81,3 @@ async function fetchData(): Promise<BlogPost[]> {
     return []; // Return empty array on error
   }
 }
-
-// Optional: Generate Static Params
-export async function generateStaticParams() {
-  // Jika ingin menggunakan SSG
-  const { data } = await supabase
-    .from('blogsPages')
-    .select('id');
-
-  return data?.map((item) => ({
-    id: item.id.toString(),
-  })) || [];
-}
