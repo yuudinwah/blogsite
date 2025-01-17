@@ -59,8 +59,18 @@ export default async function DetailPage() {
                 </a>
               </div>
             </div>
+            <div className='flex flex-col justify-center w-1/2 h-full'>
+              <Image src={"/landing-01.png"} height={360} width={360} className={`sm:hidden lg:block`} alt='Landing Image preview'></Image>
+            </div>
           </div>
-          <div className='h-20 border-t-2'>bbb</div>
+          <div className='h-20 border-t-2 flex flex-row justify-center items-center gap-4 --font-merriweather'>
+            <a href="#" className="text-md text-gray-900">Help</a>
+            <a href="#" className="text-md text-gray-900">About</a>
+            <a href="#" className="text-md text-gray-900">Privacy</a>
+            <a href="#" className="text-md text-gray-900">Terms</a>
+            <a href="#" className="text-md text-gray-900">Teams</a>
+            <a href="#" className="text-md text-gray-900">Status</a>
+          </div>
         </div>
       </div>
     </>

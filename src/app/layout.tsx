@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Merriweather } from "next/font/google";
 import "./globals.css";
 import HeaderComponent from "@/components/Header";
 
@@ -8,6 +8,13 @@ const geistSans = Geist({
   subsets: ["latin"],
   display: 'swap'
 });
+
+const merriweather = Merriweather({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-merriweather',
+})
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -26,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${merriweather.variable} antialiased`}>
         <HeaderComponent />
         <div>
           {children}
