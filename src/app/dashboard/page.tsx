@@ -156,16 +156,16 @@ export default function DashboardPage() {
   return (
     <>
       <div className="flex flex-col lg:flex-row">
-      <div className="bg-gray-400 lg:w-80 h-auto lg:h-screen py-16 lg:py-8 lg:fixed lg:z-0 lg:drop-shadow-sm">
+        <div className="bg-gray-400 lg:w-80 h-auto lg:h-screen py-16 lg:py-8 lg:fixed lg:z-0 lg:drop-shadow-sm">
           <div className="w-full p-4 gap-16 flex flex-col items-center">
             <Image className="dark:invert" src="/icon-192.png" alt="logo" width={180} height={38} priority />
             <h1 className="text-3xl lg:text-xl font-bold mb-4">My Blog</h1>
 
             <div className="flex gap-4 items-center flex-row lg:flex-col ">
-              <a 
-                className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5" 
-                href="/form" 
-                target="_blank" 
+              <a
+                className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+                href="/form"
+                target="_blank"
                 rel="noopener noreferrer"
               >
                 <img className="dark:invert" src="/vercel.svg" alt="Vercel logomark" width={20} height={20} />
@@ -177,17 +177,17 @@ export default function DashboardPage() {
 
         <div className="lg:w-screen lg:pl-80 items-center flex flex-col">
           <div className="px-16 py-8 w-full lg:max-w-screen-md flex flex-col">
-          <div className="py-8">
+            <div className="py-8">
               <h1 className="text-2xl font-bold text-gray-600 mb-4">Dashboard</h1>
             </div>
             <div className='flex flex-row gap-4'>
-              <DashboardCounterComponent 
-                title='Viewers' 
-                value={datas.map(item => item.clickTimes).reduce((a, b) => a + b, 0)} 
+              <DashboardCounterComponent
+                title='Viewers'
+                value={datas.map(item => item.clickTimes).reduce((a, b) => a + b, 0)}
               />
-              <DashboardCounterComponent 
-                title='Postingan' 
-                value={datas.length} 
+              <DashboardCounterComponent
+                title='Postingan'
+                value={datas.length}
               />
             </div>
 

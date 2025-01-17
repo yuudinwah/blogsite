@@ -38,33 +38,30 @@ export default async function DetailPage() {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row">
-        <div className="bg-gray-400 lg:w-80 h-auto lg:h-screen py-16 lg:py-8 lg:fixed lg:z-0 lg:drop-shadow-sm">
-          <div className="w-full p-4 gap-16 flex flex-col items-center">
-            <Image className="dark:invert" src="/icon-192.png" alt="logo" width={180} height={38} priority />
-            <h1 className="text-3xl lg:text-xl font-bold mb-4">My Blog</h1>
-          </div>
-        </div>
-        <div className="lg:w-screen lg:pl-80 items-center flex flex-col">
-          <div className="px-16 py-8 w-full lg:max-w-screen-md flex flex-col">
-            <div className="py-8">
-              <h1 className="text-2xl font-bold text-gray-600 mb-4">Content</h1>
-            </div>
-            {datas && datas.map((data, index) => (
-              <div className="py-8" key={index}>
-                <p className="text-sm text-gray-400 mb-2">{dateFormat((new Date(data.createdAt)), "MMMM dd, yyyy")} - {data.meta.readingTime} menit baca</p>
-                <a className="text-xl font-bold text-gray-600 mb-8" href={`/detail/${data.id}`}>{data.title}</a>
-                <p className="text-gray-600 my-4">{data.shortContent} </p>
-                <h2></h2>
+      <div className='bg-white justify-center flex flex-row h-screen w-full'>
+        <div className="flex flex-col max-w-3xl w-full h-full">
+          <div className='w-full h-full flex flex-row justify-between'>
+            <div className='flex flex-col justify-center w-1/2 h-full'>
+              <div className='text-6xl py-4'>
+                Share your passions
               </div>
-            ))}
+              <div className='text-base py-4'>
+                Create your own blog sites
+              </div>
+              <div className="flex items-center flex-row py-4">
+                <a
+                  className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+                  href="/form"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Create
+                </a>
+              </div>
+            </div>
           </div>
-
-          {/* Footer */}
-
-          <FooterComponent />
+          <div className='h-20 border-t-2'>bbb</div>
         </div>
-
       </div>
     </>
   );
