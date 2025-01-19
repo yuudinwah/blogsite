@@ -1,6 +1,3 @@
-import FooterComponent from '@/components/Footer';
-import { dateFormat } from '@/utils/dateExtension';
-import { supabase } from '@/utils/supabase';
 import { headers } from 'next/headers';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -41,28 +38,40 @@ export default async function DetailPage() {
       <div className='bg-white justify-center flex flex-row h-screen w-full'>
         <div className="flex flex-col max-w-3xl w-full h-full">
           <div className='w-full h-full flex flex-row justify-between'>
-            <div className='flex flex-col justify-center w-1/2 h-full'>
-              <div className='text-6xl py-4'>
+            <div className='flex flex-col justify-center w-full md:w-1/2 h-full px-4'>
+              <div className='text-4xl md:text-6xl py-4'>
                 Share your passions
               </div>
-              <div className='text-base py-4'>
+              <div className='text-sm md:text-base py-4'>
                 Create your own blog sites
               </div>
               <div className="flex items-center flex-row py-4">
                 <a
-                  className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-                  href="/form"
-                  target="_blank"
+                  className="rounded-lg border border-solid border-transparent 
+                          transition-colors flex items-center justify-center 
+                          bg-foreground text-background hover:bg-[#383838] 
+                          dark:hover:bg-[#ccc] text-sm sm:text-base 
+                          h-10 sm:h-12 px-4 sm:px-5"
+                  href="/auth/signin"
+                  // target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Create
+                  Join Now
                 </a>
               </div>
             </div>
-            <div className='flex flex-col justify-center w-1/2 h-full'>
-              <Image src={"/landing-01.png"} height={360} width={360} className={`sm:hidden lg:block`} alt='Landing Image preview'></Image>
+
+            <div className='hidden md:flex md:w-1/2 h-full justify-center items-center'>
+              <Image
+                src={"/landing-01.png"}
+                height={360}
+                width={360}
+                alt='Landing Image preview'
+                className='w-auto h-auto'
+              />
             </div>
           </div>
+
           <div className='h-20 border-t-2 flex flex-row justify-center items-center gap-4 --font-merriweather'>
             <a href="#" className="text-md text-gray-900">Help</a>
             <a href="#" className="text-md text-gray-900">About</a>

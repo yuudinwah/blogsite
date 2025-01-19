@@ -10,11 +10,18 @@ export async function GET(request: NextRequest) {
     try {
         const searchParams = request.nextUrl.searchParams;
         const id = searchParams.get('id');
-
-        var snapshot: any = supabase.from("blogsPages")
+        const tag = searchParams.get('tag');
+        const before = searchParams.get('before');
+        const after = searchParams.get('after');
+        console.log(tag);
+        let snapshot: any = supabase.from("blogsPages")
             .select("*")
             .is('deletedAt', 'null')
+            .contains('tags', [tag ?? "Public"])
             .order('createdAt', { ascending: false })
+            .limit(10);
+        if (after) snapshot = snapshot.gt('id', after);
+        if (before) snapshot = snapshot.lt('id', before);
         if (id) snapshot = snapshot.eq("id", id).single()
         snapshot = await snapshot
 
@@ -29,7 +36,7 @@ export async function GET(request: NextRequest) {
         }
         return NextResponse.json({
             success: true,
-            data: snapshot.data,
+            data: snapshot.data || [],
         });
 
     } catch (error) {
