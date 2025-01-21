@@ -1,37 +1,41 @@
-import { headers } from 'next/headers';
+'use client'
+
+import { useUser } from '@/context/UserContext';
+// import { headers } from 'next/headers';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+// import { notFound } from 'next/navigation';
 
 // Fungsi untuk validasi domain
-async function validateDomain() {
-  const headersList = headers();
-  const domain = (await headersList).get('host');
-  // Daftar domain yang diizinkan
-  const allowedDomains = ['localhost:3000', 'yourdomain.com'];
+// async function validateDomain() {
+//   const headersList = headers();
+//   const domain = (await headersList).get('host');
+//   // Daftar domain yang diizinkan
+//   const allowedDomains = ['localhost:3000', 'yourdomain.com'];
 
-  return allowedDomains.includes(domain || '');
-}
+//   return allowedDomains.includes(domain || '');
+// }
 
 // Metadata generator (opsional)
-export async function generateMetadata() {
+// export async function generateMetadata() {
 
-  // Fetch data
-  const data = await fetchData();
+//   // Fetch data
+//   const data = await fetchData();
 
-  return {
-    title: `My Blog`,
-    description: 'Main page'
-  };
-}
+//   return {
+//     title: `My Blog`,
+//     description: 'Main page'
+//   };
+// }
 
 // Main component
-export default async function DetailPage() {
-  // Validasi domain
-  if (!validateDomain()) {
-    notFound(); // atau redirect ke halaman error
-  }
-  // Fetch data
-  const datas = await fetchData();
+export default function LandingPage() {
+    const { userData } = useUser();
+    // Validasi domain
+  // if (!validateDomain()) {
+  //   notFound(); // atau redirect ke halaman error
+  // }
+  // // Fetch data
+  // const datas = await fetchData();
 
   return (
     <>
@@ -87,13 +91,13 @@ export default async function DetailPage() {
 }
 
 // Fungsi untuk fetch data
-async function fetchData(): Promise<BlogPost[]> {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog`);
-    const data = await response.json();
-    return data.data;
-  } catch (error) {
-    console.error('Error fetching content:', error);
-    return []; // Return empty array on error
-  }
-}
+// async function fetchData(): Promise<BlogPost[]> {
+//   try {
+//     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog`);
+//     const data = await response.json();
+//     return data.data;
+//   } catch (error) {
+//     console.error('Error fetching content:', error);
+//     return []; // Return empty array on error
+//   }
+// }

@@ -28,7 +28,7 @@ export default function HeaderComponent(
                         </a>
                     </div>
                     <div className="flex items-center flex-row space-x-2">
-                        {value.showWriteButton == true ? <a
+                        {value.showWriteButton == true || userData ? <a
                             href="/form"
                             rel="noopener noreferrer"
                             className='rounded-lg border border-solid border-transparent flex items-center justify-center text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 gap-2'>
