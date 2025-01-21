@@ -7,7 +7,7 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   $getSelection,
   $isRangeSelection,
@@ -316,10 +316,10 @@ function InitialContentPlugin({ initialContent }: { initialContent?: string }) {
         const root = $getRoot();
         const parser = new DOMParser();
         const dom = parser.parseFromString(initialContent, 'text/html');
-        
+
         // Clear existing content
         root.clear();
-        
+
         // Import content from HTML
         const nodes = $generateNodesFromDOM(editor, dom);
         root.append(...nodes);
@@ -331,10 +331,12 @@ function InitialContentPlugin({ initialContent }: { initialContent?: string }) {
   return null;
 }
 
-export default function Editor({ 
-  onChange, 
-  initialContent 
-}: { 
+export default function Editor({
+  children,
+  onChange,
+  initialContent
+}: {
+  children?: ReactNode,
   onChange: (html: string) => void;
   initialContent?: string;
 }) {
@@ -377,8 +379,11 @@ export default function Editor({
     <div className="w-full min-h-screen bg-white">
       <LexicalComposer initialConfig={initialConfig}>
         <div className="h-full flex flex-col">
-          <ToolbarPlugin />
-          <div className="flex-1 overflow-auto">
+          <div className="fixed top-32 mt-4 max-w-3xl w-screen flex flex-row bg-white">
+            <ToolbarPlugin />
+
+          </div>
+          <div className="flex-1 overflow-auto pt-36">
             <RichTextPlugin
               contentEditable={
                 <ContentEditable

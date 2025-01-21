@@ -4,7 +4,7 @@ import Editor from '@/components/wysiwyg';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function EditPage({ params }: any ) {
+export default function EditPage({ params }: any) {
     const [content, setContent] = useState<string>('');
     const [initialContent, setInitialContent] = useState<string>('');
     const [isLoading, setIsLoading] = useState(false);
@@ -34,16 +34,10 @@ export default function EditPage({ params }: any ) {
 
     const handleSubmit = async () => {
         try {
-            var id = (await params).id
-            const response = await fetch(`/api/blog?id=${id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ html: content }),
-            });
+            const id = (await params).id
+            const result = await uploadHtml(content, id);
 
-            if (response.ok) {
+            if (result.ok) {
                 // Handle success
                 console.log('Content updated successfully');
                 router.push('/dashboard');
@@ -55,23 +49,86 @@ export default function EditPage({ params }: any ) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="max-w-5xl mx-auto p-4">
-                <div className='flex my-4'>
-
-                    <button
+        <div className='bg-gray-50 justify-center flex flex-row w-full'>
+                    <div className="max-w-3xl  w-full pt-20">
+                        <div className='p-2'></div>
+                        <div className="rounded-lg bg-white overflow-hidden">
+                            <div className="fixed top-20 max-w-3xl w-screen flex flex-row justify-end p-2 bg-white">
+                                <button
                         onClick={handleSubmit}
-                        disabled={isLoading}
-                        className={`rounded-md border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''
-                            }`}
-                    >{isLoading ? 'Mengirim...' : 'Kirim'}
-                    </button>
-
+                                    disabled={isLoading}
+                                    className={`rounded-md border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                >
+                                    {isLoading ? 'Menyimpan...' : 'Simpan'}
+                                </button>
+                            </div>
+                            <div className=''>
+                                <Editor onChange={handleContentChange} initialContent={initialContent} />
+        
+                            </div>
+                        </div>
+        
+                        {/* HTML Preview */}
+                        {/* <div className="mt-4 p-4 bg-white rounded-lg shadow">
+                            <h3 className="text-lg font-medium mb-2">HTML Output:</h3>
+                            <pre className="bg-gray-50 p-3 rounded text-sm overflow-auto">
+                                {html}
+                            </pre>
+                        </div> */}
+        
+                        {/* Rendered HTML Preview */}
+                        {/* <div className="mt-4 p-4 bg-white rounded-lg shadow">
+                            <h3 className="text-lg font-medium mb-2">Rendered Preview:</h3>
+                            <div
+                                dangerouslySetInnerHTML={{ __html: html }}
+                                className="prose max-w-none"
+                            />
+                        </div> */}
+                    </div>
                 </div>
-                <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                    <Editor onChange={handleContentChange} initialContent={initialContent} />
-                </div>
-            </div>
-        </div>
     );
+}
+
+async function uploadHtml(html: string, id: string) {
+    try {
+        // Konversi blob URLs ke base64
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const images = doc.getElementsByTagName('img');
+
+        let processedHtml = html;
+
+        for (const img of images) {
+            const src = img.getAttribute('src');
+            if (src?.startsWith('blob:')) {
+                const response = await fetch(src);
+                const blob = await response.blob();
+                const base64 = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.readAsDataURL(blob);
+                });
+
+                processedHtml = processedHtml.replace(src, base64 as string);
+            }
+        }
+
+        const response = await fetch(`/api/blog?id=${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ html: processedHtml }),
+        });
+
+        // const response = await axios.post('/api/blog', {
+        //     html: processedHtml
+        // });
+
+        return response;
+
+    } catch (error) {
+        console.error('Error uploading:', error);
+        throw error; // Re-throw error untuk handling di component
+    }
 }

@@ -1,10 +1,14 @@
 'use client'
 
-interface HeaderComponentProps {
-    className?: string; // Tambahkan interface untuk props
-}
 import Image from 'next/image';
 import { useUser } from '@/context/UserContext';
+import { ReactNode } from 'react';
+
+interface HeaderComponentProps {
+    className?: string;
+    children?: ReactNode,
+    showWriteButton?: boolean,
+}
 
 export default function HeaderComponent(
     value: HeaderComponentProps
@@ -24,11 +28,18 @@ export default function HeaderComponent(
                         </a>
                     </div>
                     <div className="flex items-center flex-row space-x-2">
+                        {value.showWriteButton == true ? <a
+                            href="/form"
+                            rel="noopener noreferrer"
+                            className='rounded-lg border border-solid border-transparent flex items-center justify-center text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 gap-2'>
+                            <img src="/icons/lucide/notebook-pen.svg" alt="Icon" width={20} height={20} />
+                            Write
+                        </a> : null}
                         {userData ? (
                             <div className="flex items-center justify-between w-full">
-                                <span className="text-gray-700 font-medium pr-4">
+                                {/* <span className="text-gray-700 font-medium pr-4">
                                     {userData.name || userData.email?.split('@')[0]}
-                                </span>
+                                </span> */}
                                 <div className='h-8 w-8 rounded-lg bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] flex items-center justify-center text-sm font-semibold transition-colors duration-200 cursor-pointer'>
                                     {((userData.name || userData.email) ?? 'U')[0].toUpperCase()}
                                 </div>

@@ -57,13 +57,27 @@ export default async function DetailPage({ params }: any) {
         <>
             <div className='bg-white justify-center flex flex-row h-screen w-full'>
                 <div className="flex flex-col max-w-3xl w-full p-20">
-                    <article className="py-8">
-                        {data && (
-                            <div>
-                                <div className="leading-relaxed" dangerouslySetInnerHTML={{ __html: `<div style="font-family: 'Merriweather', serif;">${data.content}</div>` }} />
-                            </div>
-                        )}
-                    </article>
+                    <div className='flex flex-col py-8'>
+                        <p>
+                            {data.meta.readingTime} menit
+                        </p>
+                        <article className="">
+                            {data && (
+                                <div>
+                                    <div className="leading-relaxed" dangerouslySetInnerHTML={{ __html: `<div style="font-family: 'Merriweather', serif;">${data.content}</div>` }} />
+                                </div>
+                            )}
+                        </article>
+
+                    </div>
+                    <div className='h-20 border-t-2 flex flex-row justify-center items-center gap-4 --font-merriweather py-4'>
+                        <a href="#" className="text-md text-gray-900">Help</a>
+                        <a href="#" className="text-md text-gray-900">About</a>
+                        <a href="#" className="text-md text-gray-900">Privacy</a>
+                        <a href="#" className="text-md text-gray-900">Terms</a>
+                        <a href="#" className="text-md text-gray-900">Teams</a>
+                        <a href="#" className="text-md text-gray-900">Status</a>
+                    </div>
                 </div>
             </div>
         </>
