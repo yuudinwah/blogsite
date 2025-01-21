@@ -52,7 +52,7 @@ export default function DashboardPage() {
           <div className='py-4'>
             {posts.map((post, index) => {
               return <div className="py-8 border-b border-gray-200" key={index}>
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start gap-8">
                   <div className="flex-1">
                     <p className="text-sm text-gray-400 mb-2">
                       {dateFormat((new Date(post.createdAt)), "MMMM dd, yyyy")} - {post.meta.readingTime} menit baca
@@ -63,28 +63,19 @@ export default function DashboardPage() {
                     >
                       {post.title}
                     </a>
-                    <p className="text-gray-600 my-4">
-                      viewer : {post.clickTimes}, likes : {post.likes}
+                    <p className="text-gray-600 my-4 overflow-hidden text-ellipsis line-clamp-2">
+                      {post.shortContent}
                     </p>
+                    <div className="text-gray-600 my-4 flex flex-row gap-4 text-sm">
+                      <img src="/icons/lucide/bar-chart-2.svg" alt="Icon" width={20} height={20} /> {post.clickTimes.toLocaleString('id-ID')}
+                      <img src="/icons/lucide/thumbs-up.svg" alt="Icon" width={20} height={20} /> {post.likes.toLocaleString('id-ID')}
+                    </div>
                   </div>
-
-                  {/* More Menu Button */}
-                  <div className="relative">
-                    <button
-                      className="p-2 hover:bg-gray-100 rounded-lg"
-                     
-                    >
-                      <svg
-                        className="w-5 h-5 text-gray-500"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                      </svg>
-                    </button>
-
-                    
-                  </div>
+                  {post.meta.hasImages ?
+                    <div className="shrink-0 w-36 h-24 bg-gray-100 rounded-md"> {/* Atur lebar dan tinggi sesuai kebutuhan */}
+                      <img src={post.meta.images[0]} alt={post.title} className="w-full h-full object-cover rounded-md" />
+                    </div> :
+                    <></>}
                 </div>
               </div>
             })}
