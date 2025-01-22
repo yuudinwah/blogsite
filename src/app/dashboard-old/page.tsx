@@ -6,7 +6,7 @@ import FooterComponent from '@/components/Footer';
 import { dateFormat } from '@/utils/dateExtension';
 import Image from 'next/image';
 
-async function fetchData(): Promise<BlogPost[]> {
+async function fetchData(): Promise<BlogPostInterface[]> {
   try {
     const response = await fetch(`/api/blog`);
     const data = await response.json();
@@ -97,7 +97,7 @@ function DeleteDialog({
 
 // Main component
 export default function DashboardPage() {
-  const [datas, setDatas] = useState<BlogPost[]>([]);
+  const [datas, setDatas] = useState<BlogPostInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [openMenuId, setOpenMenuId] = useState<(string | number) | null>(null);
@@ -131,7 +131,7 @@ export default function DashboardPage() {
 
   const handleDelete = async (id: (string | number)) => {
     try {
-      const response = await fetch(`/api/blog?id=${id}`, {
+      const response = await fetch(`/api/blogs?id=${id}`, {
         method: 'DELETE',
       });
 
@@ -183,7 +183,7 @@ export default function DashboardPage() {
             <div className='flex flex-row gap-4'>
               <DashboardCounterComponent
                 title='Viewers'
-                value={datas.map(item => item.clickTimes).reduce((a, b) => a + b, 0)}
+                value={`${datas.map(item => item.clickTimes).reduce((a, b) => (a ?? 0) + (b ?? 0), 0)}`}
               />
               <DashboardCounterComponent
                 title='Postingan'
@@ -200,7 +200,7 @@ export default function DashboardPage() {
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <p className="text-sm text-gray-400 mb-2">
-                      {dateFormat((new Date(data.createdAt)), "MMMM dd, yyyy")} - {data.meta.readingTime} menit baca
+                      {dateFormat((new Date(data.createdAt ?? "")), "MMMM dd, yyyy")} - {data.meta?.readingTime} menit baca
                     </p>
                     <a
                       className="text-xl font-bold text-gray-600 mb-8"
@@ -217,7 +217,7 @@ export default function DashboardPage() {
                   <div className="relative">
                     <button
                       className="p-2 hover:bg-gray-100 rounded-lg"
-                      onClick={() => setOpenMenuId(openMenuId === data.id ? null : data.id)}
+                      onClick={() => setOpenMenuId(openMenuId === data.id! ? null : data.id! )}
                     >
                       <svg
                         className="w-5 h-5 text-gray-500"
@@ -230,11 +230,11 @@ export default function DashboardPage() {
 
                     <MoreMenu
                       isOpen={openMenuId === data.id}
-                      onEdit={() => handleEdit(data.id)}
+                      onEdit={() => handleEdit(data.id!)}
                       onDelete={() => setDeleteDialog({
                         isOpen: true,
-                        id: data.id,
-                        title: data.title
+                        id: data.id!,
+                        title: data.title ?? "",
                       })}
                     />
                   </div>

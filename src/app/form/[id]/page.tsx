@@ -15,8 +15,8 @@ export default function EditPage({ params }: any) {
         const fetchContent = async () => {
             try {
                 var id = (await params).id
-                const response = await fetch(`/api/blog?id=${id}`);
-                // const response = await fetch(`/api/blog?id=${id}`);
+                const response = await fetch(`/api/blogs?id=${id}`);
+                // const response = await fetch(`/api/blogs?id=${id}`);
                 const data = await response.json();
                 console.log(data.data)
                 setInitialContent(data.data.content);
@@ -113,7 +113,7 @@ async function uploadHtml(html: string, id: string) {
             }
         }
 
-        const response = await fetch(`/api/blog?id=${id}`, {
+        const response = await fetch(`/api/blogs?id=${id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

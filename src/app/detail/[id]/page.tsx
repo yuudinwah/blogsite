@@ -59,7 +59,7 @@ export default async function DetailPage({ params }: any) {
                 <div className="flex flex-col max-w-3xl w-full p-20">
                     <div className='flex flex-col py-8'>
                         <p>
-                            {data.meta.readingTime} menit
+                            {data.meta?.readingTime ?? "-"} menit
                         </p>
                         <article className="">
                             {data && (
@@ -85,9 +85,9 @@ export default async function DetailPage({ params }: any) {
 }
 
 // Fungsi untuk fetch data
-async function fetchData(id: string): Promise<BlogPost> {
+async function fetchData(id: string): Promise<BlogPostInterface> {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blog?id=${id}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs?id=${id}`);
         const data = await response.json();
         return data.data;
     } catch (error) {

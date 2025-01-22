@@ -13,7 +13,7 @@ interface HeaderComponentProps {
 export default function HeaderComponent(
     value: HeaderComponentProps
 ) {
-    const { userData } = useUser();
+    const { userData, loading } = useUser();
 
     return (
         <>
@@ -27,8 +27,8 @@ export default function HeaderComponent(
                             BlogSite
                         </a>
                     </div>
-                    <div className="flex items-center flex-row space-x-2">
-                        {value.showWriteButton == true || userData ? <a
+                    {!loading ? <div className="flex items-center flex-row space-x-2">
+                        {value.showWriteButton == true && userData ? <a
                             href="/form"
                             rel="noopener noreferrer"
                             className='rounded-lg border border-solid border-transparent flex items-center justify-center text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 gap-2'>
@@ -53,7 +53,7 @@ export default function HeaderComponent(
                                 Get Started
                             </a>
                         )}
-                    </div>
+                    </div> : <></>}
 
 
 

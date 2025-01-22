@@ -7,6 +7,7 @@ import HeaderComponent from "@/components/Header";
 import { AuthContextProvider } from '../context/AuthContext'
 import { UserContextProvider } from "@/context/UserContext";
 import { usePathname } from "next/navigation";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,13 +40,17 @@ export default function RootLayout({
   const pathname = usePathname();
   let showWriteButton = true;
 
-  if(pathname.startsWith('/form')) showWriteButton = false;
-  if(pathname.startsWith('/f/')) showWriteButton = false;
-  if(pathname.startsWith('/detail')) showWriteButton = false;
-  if(pathname.startsWith('/d/')) showWriteButton = false;
+  if (pathname.startsWith('/form')) showWriteButton = false;
+  if (pathname.startsWith('/f/')) showWriteButton = false;
+  if (pathname.startsWith('/detail')) showWriteButton = false;
+  if (pathname.startsWith('/d/')) showWriteButton = false;
 
   return (
     <html lang="en">
+
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${merriweather.variable} antialiased`}>
         <AuthContextProvider>
           <UserContextProvider>

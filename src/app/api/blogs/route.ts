@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
 
 
         if (id) {
+            if (!snapshot.data) throw "Tidak ada data"
             const { error } = await supabase.from("blogsPages").update({
                 clickTimes: 1 + snapshot.data.clickTimes
             }).eq("id", id).single()
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
     } catch (error) {
         console.error('Error processing blog:', error);
         return NextResponse.json(
-            { error: 'Failed to process blog' },
+            { error: error ?? 'Failed to process blog' },
             { status: 500 }
         );
     }
@@ -51,6 +52,10 @@ export async function GET(request: NextRequest) {
 // Insert Blog Function
 export async function POST(request: NextRequest) {
     try {
+        const searchParams = request.nextUrl.searchParams;
+        const username = searchParams.get('username');
+        if (!username) throw "Username reqired"
+
         const data = await request.json();
         let html = data.html;
 
@@ -58,7 +63,7 @@ export async function POST(request: NextRequest) {
         const base64Regex = /src="data:image\/[^;]+;base64[^"]+"/g;
 
         const base64Images = html.match(base64Regex) || [];
-        var snapshot = await supabase.from("blogsPages").insert({ blogId: 1, content: html }).select('id').single();
+        var snapshot = await supabase.from("blogsPages").insert({ blogId: 1, content: "" }).select('id').single();
 
         for (const base64Image of base64Images) {
             const imageData = base64Image.replace(/^src="(.*)"$/, '$1');
@@ -69,20 +74,14 @@ export async function POST(request: NextRequest) {
         const parser = new HtmlParser(html);
         const parsed = parser.parse();
 
-        snapshot = await supabase.from("blogsPages").update({
-            title: parsed.title,
-            cover: parsed.cover,
-            shortContent: parsed.shortContent,
-            meta: parsed.meta,
-            readingTime: parsed.meta.readingTime,
-            hasImages: parsed.meta.hasImages,
-            content: html
-        }).eq("id", snapshot.data!.id).single()
-        console.log(html)
+        let post: BlogPostInterface = { ...parsed, username };
+
+        snapshot = await supabase.from("blogsPages").insert(post).eq("id", snapshot.data!.id).select("*").single()
+        post = snapshot.data!
 
         return NextResponse.json({
             success: true,
-            data: snapshot.data
+            data: post
         });
 
     } catch (error) {
