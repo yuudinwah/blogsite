@@ -56,8 +56,8 @@ export default async function DetailPage({ params }: any) {
     return (
         <>
             <div className='bg-white justify-center flex flex-row h-screen w-full'>
-                <div className="flex flex-col max-w-3xl w-full p-20">
-                    <div className='flex flex-col py-8'>
+                <div className="flex flex-col max-w-3xl w-full py-20">
+                    <div className='flex flex-col py-8 px-16'>
                         <p>
                             {data.meta?.readingTime ?? "-"} menit
                         </p>

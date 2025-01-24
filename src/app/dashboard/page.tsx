@@ -30,7 +30,7 @@ export default function DashboardPage() {
   return (
     <>
       <div className='bg-white justify-center flex flex-row h-screen w-full'>
-        <div className="flex flex-col max-w-3xl w-full p-20">
+        <div className="flex flex-col max-w-3xl w-full py-20">
           <div className="border-b border-gray-200">
             <nav className="flex -mb-px">
               {tabs.map((tab) => (
@@ -49,7 +49,7 @@ export default function DashboardPage() {
             </nav>
 
           </div>
-          <div className='py-4'>
+          <div className='py-4 px-8'>
             {posts.map((post, index) => {
               return <div className="py-8 border-b border-gray-200" key={index}>
                 <div className="flex justify-between items-start gap-8">
