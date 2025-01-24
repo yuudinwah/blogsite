@@ -1,6 +1,7 @@
 'use client'
 
 import { useUser } from '@/context/UserContext';
+import Head from 'next/head';
 // import { headers } from 'next/headers';
 import Image from 'next/image';
 // import { notFound } from 'next/navigation';
@@ -29,8 +30,8 @@ import Image from 'next/image';
 
 // Main component
 export default function LandingPage() {
-    const { userData } = useUser();
-    // Validasi domain
+  const { userData } = useUser();
+  // Validasi domain
   // if (!validateDomain()) {
   //   notFound(); // atau redirect ke halaman error
   // }
@@ -39,6 +40,12 @@ export default function LandingPage() {
 
   return (
     <>
+      <Head>
+        <title>BlogSite | Share your passions</title>
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico"></link>
+        <meta name="description" content="BlogSite. Kamu dapat dengan mudah memposting tentang kehidupan sehari-hari dan hal-hal yang Anda sukai untuk terhubung dengan orang-orang yang memiliki minat sama." />
+        <meta name="keywords" content="BlogSite. Kamu dapat dengan mudah memposting tentang kehidupan sehari-hari dan hal-hal yang Anda sukai untuk terhubung dengan orang-orang yang memiliki minat sama." />
+      </Head>
       <div className='bg-white justify-center flex flex-row h-screen w-full'>
         <div className="flex flex-col max-w-3xl w-full h-full">
           <div className='w-full h-full flex flex-row justify-between'>

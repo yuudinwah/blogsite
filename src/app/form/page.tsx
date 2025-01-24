@@ -4,8 +4,11 @@ import { useState } from 'react';
 import Editor from '../../components/wysiwyg';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { useUser } from '@/context/UserContext';
 
 export default function Page() {
+    let { userData } = useUser()
     const [html, setHtml] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter(); // Initialize router
@@ -13,7 +16,7 @@ export default function Page() {
     const handleUpload = async () => {
         setIsLoading(true);
         try {
-            await uploadHtml(html);
+            await uploadHtml(html, userData?.id!);
             // Redirect ke halaman root setelah berhasil
             router.push('/dashboard');
         } catch (error) {
@@ -65,7 +68,7 @@ export default function Page() {
     );
 }
 
-async function uploadHtml(html: string) {
+async function uploadHtml(html: string, username: string) {
     try {
         // Konversi blob URLs ke base64
         const parser = new DOMParser();
@@ -89,7 +92,7 @@ async function uploadHtml(html: string) {
             }
         }
 
-        const response = await axios.post('/api/blog', {
+        const response = await axios.post(`/api/blogs?username=${username}`, {
             html: processedHtml
         });
 
