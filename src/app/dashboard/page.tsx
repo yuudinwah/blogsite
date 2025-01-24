@@ -88,7 +88,7 @@ export default function DashboardPage() {
 
 async function fetchData({ tag }: { tag?: string }): Promise<BlogPostInterface[]> {
   try {
-    const response = await fetch(`/api/blog?tag=${tag}`);
+    const response = await fetch(`/api/blogs?tag=${tag}`);
     const data = await response.json();
     return data.data || [];
   } catch (error) {
