@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState<string>('Public');
   const [tabs, setTabs] = useState<string[]>(['+', 'Public', 'Following']);
-  const [posts, setposts] = useState<BlogPost[]>([]);
+  const [posts, setposts] = useState<BlogPostInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,7 +55,7 @@ export default function DashboardPage() {
                 <div className="flex justify-between items-start gap-8">
                   <div className="flex-1">
                     <p className="text-sm text-gray-400 mb-2">
-                      {dateFormat((new Date(post.createdAt)), "MMMM dd, yyyy")} - {post.meta.readingTime} menit baca
+                      {dateFormat((new Date(post.createdAt??"")), "MMMM dd, yyyy")} - {post.meta?.readingTime} menit baca
                     </p>
                     <a
                       className="text-xl font-bold text-gray-600 mb-8"
@@ -67,11 +67,11 @@ export default function DashboardPage() {
                       {post.shortContent}
                     </p>
                     <div className="text-gray-600 my-4 flex flex-row gap-4 text-sm">
-                      <img src="/icons/lucide/bar-chart-2.svg" alt="Icon" width={20} height={20} /> {post.clickTimes.toLocaleString('id-ID')}
-                      <img src="/icons/lucide/thumbs-up.svg" alt="Icon" width={20} height={20} /> {post.likes.toLocaleString('id-ID')}
+                      <img src="/icons/lucide/bar-chart-2.svg" alt="Icon" width={20} height={20} /> {post.clickTimes?.toLocaleString('id-ID')}
+                      <img src="/icons/lucide/thumbs-up.svg" alt="Icon" width={20} height={20} /> {post.likes?.toLocaleString('id-ID')}
                     </div>
                   </div>
-                  {post.meta.hasImages ?
+                  {post.meta?.hasImages ?
                     <div className="shrink-0 w-36 h-24 bg-gray-100 rounded-md"> {/* Atur lebar dan tinggi sesuai kebutuhan */}
                       <img src={post.meta.images[0]} alt={post.title} className="w-full h-full object-cover rounded-md" />
                     </div> :
@@ -86,7 +86,7 @@ export default function DashboardPage() {
   );
 }
 
-async function fetchData({ tag }: { tag?: string }): Promise<BlogPost[]> {
+async function fetchData({ tag }: { tag?: string }): Promise<BlogPostInterface[]> {
   try {
     const response = await fetch(`/api/blog?tag=${tag}`);
     const data = await response.json();
